@@ -67,6 +67,10 @@ button {
 	cursor: pointer;
 }
 
+button.poista {
+	background: #FF0000;
+}
+
 input {
 	border: 2px;
 	border-color: #333333;

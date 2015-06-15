@@ -34,6 +34,25 @@ public class HenkiloServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getParameter("deluserid") != null) {
+			poista(request);
+		} else {
+			lisaa(request);
+		}
+		response.sendRedirect("henkilot"); //redirect doGet
+	}
+    
+	private void poista(HttpServletRequest request) throws ServletException {
+		try {
+			int id = Integer.parseInt(request.getParameter("deluserid"));
+			HenkiloDAO hDao = new HenkiloDAO();
+			hDao.poista(id);
+		} catch (DAOPoikkeus e) {
+			throw new ServletException(e);
+		}
+	}
+	
+	private void lisaa(HttpServletRequest request) throws ServletException {
 		String enimi = request.getParameter("etunimi");
 		String snimi = request.getParameter("sukunimi");
 		
@@ -45,11 +64,8 @@ public class HenkiloServlet extends HttpServlet {
 		} catch (DAOPoikkeus e) {
 			throw new ServletException(e);
 		}
-		
-		
-		response.sendRedirect("henkilot"); //redirect doGet
 	}
-    
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

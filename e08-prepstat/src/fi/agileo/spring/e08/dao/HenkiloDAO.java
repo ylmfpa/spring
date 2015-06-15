@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,4 +132,25 @@ public class HenkiloDAO {
 
 	}
 
+	public void poista(int henkiloId) throws DAOPoikkeus {
+		Connection con = avaaYhteys();
+		
+		try {
+			PreparedStatement statement = 
+					con.prepareStatement("delete from henkilo where id=?");
+			statement.setInt(1, henkiloId);
+			
+			int n = statement.executeUpdate();
+			
+			if (n != 1) {
+				throw new DAOPoikkeus("Poisto ei kohdistunut yhteen riviin");
+			}
+			
+		} catch (SQLException e) {
+			throw new DAOPoikkeus(e);
+		} finally {
+			suljeYhteys(con);
+		}
+	}
+	
 }
