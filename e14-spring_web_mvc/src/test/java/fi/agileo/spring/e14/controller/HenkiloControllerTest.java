@@ -73,5 +73,20 @@ public class HenkiloControllerTest {
 		//verify that the mock has been called
 		verify(mockDao, times(1)).etsi(0);
 	}
+	
+	@Test
+	public void testHaeKaikki() throws Exception {
+		//create a request
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/henkilot");
+
+		//check status, model size and view name
+		mockMvc.perform(requestBuilder)
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("henk/viewAll"));
+		
+		//verify that the mock has been called
+		verify(mockDao, times(1)).haeKaikki();
+	}
+
 
 }
